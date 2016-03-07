@@ -132,7 +132,7 @@ RCT_EXPORT_METHOD(prepareRecordingAtPath:(NSString *)path sampleRate:(float)samp
                                   [NSNumber numberWithFloat:44100.0], AVSampleRateKey,
                                   [NSNumber numberWithInt:128000], AVEncoderBitRateKey,
                                   [NSNumber numberWithInt: 1], AVNumberOfChannelsKey,
-                                  [NSNumber numberWithInt:AVAudioQualityHigh], AVEncoderAudioQualityKey,
+                                  [NSNumber numberWithInt:AVAudioQualityMedium], AVEncoderAudioQualityKey,
                                   nil];
 
   NSError *error = nil;
