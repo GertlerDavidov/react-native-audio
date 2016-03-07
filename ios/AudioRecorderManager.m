@@ -125,7 +125,7 @@ RCT_EXPORT_METHOD(prepareRecordingAtPath:(NSString *)path sampleRate:(float)samp
           [NSNumber numberWithInt:16], AVEncoderBitRateKey,
           _audioChannels, AVNumberOfChannelsKey,
           _audioSampleRate, AVSampleRateKey,
-          nil];*/
+          nil];
   
   NSDictionary *recordSettings = [NSDictionary dictionaryWithObjectsAndKeys:
                                   [NSNumber numberWithInt: kAudioFormatMPEG4AAC], AVFormatIDKey,
@@ -133,7 +133,15 @@ RCT_EXPORT_METHOD(prepareRecordingAtPath:(NSString *)path sampleRate:(float)samp
                                   [NSNumber numberWithInt:128000], AVEncoderBitRateKey,
                                   [NSNumber numberWithInt: 1], AVNumberOfChannelsKey,
                                   [NSNumber numberWithInt:AVAudioQualityMedium], AVEncoderAudioQualityKey,
+                                  nil];*/
+  
+  NSDictionary *recordSettings = [NSDictionary dictionaryWithObjectsAndKeys:
+                                  [NSNumber numberWithInt: kAudioFormatMPEG4AAC], AVFormatIDKey,
+                                  [NSNumber numberWithFloat:22050.0], AVSampleRateKey,
+                                  [NSNumber numberWithInt: 1], AVNumberOfChannelsKey,
+                                  [NSNumber numberWithInt:AVAudioQualityHigh], AVEncoderAudioQualityKey,
                                   nil];
+
 
   NSError *error = nil;
 
