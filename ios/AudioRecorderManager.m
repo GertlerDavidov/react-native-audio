@@ -23,6 +23,7 @@ NSString *const AudioRecorderEventFinished = @"recordingFinished";
   NSTimeInterval _currentTime;
   id _progressUpdateTimer;
   int _progressUpdateInterval;
+  bool permission;
   NSDate *_prevProgressUpdateTime;
   NSURL *_audioFileURL;
   NSNumber *_audioQuality;
@@ -126,7 +127,7 @@ RCT_EXPORT_METHOD(prepareRecordingAtPath:(NSString *)path sampleRate:(float)samp
           _audioChannels, AVNumberOfChannelsKey,
           _audioSampleRate, AVSampleRateKey,
           nil];
-  
+
   NSDictionary *recordSettings = [NSDictionary dictionaryWithObjectsAndKeys:
                                   [NSNumber numberWithInt: kAudioFormatMPEG4AAC], AVFormatIDKey,
                                   [NSNumber numberWithFloat:44100.0], AVSampleRateKey,
@@ -134,7 +135,7 @@ RCT_EXPORT_METHOD(prepareRecordingAtPath:(NSString *)path sampleRate:(float)samp
                                   [NSNumber numberWithInt: 1], AVNumberOfChannelsKey,
                                   [NSNumber numberWithInt:AVAudioQualityMedium], AVEncoderAudioQualityKey,
                                   nil];*/
-  
+
   NSDictionary *recordSettings = [NSDictionary dictionaryWithObjectsAndKeys:
                                   [NSNumber numberWithInt: kAudioFormatMPEG4AAC], AVFormatIDKey,
                                   [NSNumber numberWithFloat:22050.0], AVSampleRateKey,
@@ -146,6 +147,9 @@ RCT_EXPORT_METHOD(prepareRecordingAtPath:(NSString *)path sampleRate:(float)samp
   NSError *error = nil;
 
   _recordSession = [AVAudioSession sharedInstance];
+
+  
+
   [_recordSession setCategory:AVAudioSessionCategoryMultiRoute error:nil];
 
   _audioRecorder = [[AVAudioRecorder alloc]
@@ -172,6 +176,28 @@ RCT_EXPORT_METHOD(startRecording)
 
   }
 }
+
+RCT_EXPORT_METHOD(gotoSettings)
+{
+  [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+}
+
+
+RCT_EXPORT_METHOD(checkPermission:(RCTResponseSenderBlock)callback)
+{
+  [[AVAudioSession sharedInstance] requestRecordPermission:^(BOOL granted) {
+    if (granted) {
+      NSLog(@"Granted");
+      callback(@[[NSNull null],  @1]);
+    } else {
+      NSLog(@"denied");
+      callback(@[[NSNull null],  @0]);
+    }
+  }];
+  
+  
+}
+
 
 RCT_EXPORT_METHOD(stopRecording)
 {
