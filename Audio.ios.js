@@ -118,7 +118,15 @@ var AudioRecorder = {
   },
   stopPlaying: function() {
     AudioRecorderManager.stopPlaying();
-  }
+  },
+  gotoSettings: function(){
+    AudioRecorderManager.gotoSettings();
+  },
+  checkPermission: function(callback){
+    AudioRecorderManager.checkPermission((error, permission) => {
+      callback(permission);
+    })
+  },
 };
 
 module.exports = {AudioPlayer, AudioRecorder};
